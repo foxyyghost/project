@@ -14,7 +14,7 @@ class SimpleCrawler:
         """Check if crawling is allowed by robots.txt"""
         parsed_url = requests.utils.urlparse(url)
         rp = urllib.robotparser.RobotFileParser()
-        robots_url = "{}://{}/robots.txt".format(parsed_url.scheme, parsed_url.netloc)
+        robots_url = f"{parsed_url.scheme}://{parsed_url.netloc}/robots.txt"
         
         try:
             rp.set_url(robots_url)
@@ -31,15 +31,16 @@ class SimpleCrawler:
             response.raise_for_status()
             return response.text
         except requests.RequestException as e:
-            print("Failed to fetch {}: {}".format(url, e))
+            print(f"Failed to fetch {url}: {e}")
             return None
 
     def parse_page(self, url, html):
         """Parse a page to extract links and content"""
         soup = BeautifulSoup(html, 'html.parser')
         title = soup.title.string if soup.title else "No Title"
-        print("Visiting: {} | Title: {}".format(url, title))
-
+        
+        print(f"Visiting: {url} | Title: {title}")  # Print the URL and title
+        
         # Extract links
         for link in soup.find_all('a', href=True):
             full_link = requests.compat.urljoin(url, link['href'])
@@ -59,10 +60,10 @@ class SimpleCrawler:
                     self.visited.add(url)
                 else:
                     print(f"Failed to fetch or parse: {url}")  # Debug statement
-                    time.sleep(1)  # Be polite to the server
+            time.sleep(1)  # Be polite to the server
         print("Crawl finished.")
 
 if __name__ == "__main__":
-    seed_url = "https://www.flipkart.com/"  # Replace with your starting URL
+    seed_url = "https://duckduckgo.com"  # Changed to a more suitable URL
     crawler = SimpleCrawler(seed_url)
     crawler.crawl()
