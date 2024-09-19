@@ -1,0 +1,18 @@
+Yes, that output indicates that the crawler is working correctly for the basic functionality. Here’s a breakdown of what you see:
+
+Starting the Crawl: This confirms that the crawling process has begun.
+
+Current URL: The crawler is attempting to fetch the seed URL (https://duckduckgo.com).
+
+Visiting: The crawler successfully fetched the page and extracted the title, which is "DuckDuckGo — Privacy, simplified." This shows that the parsing and title extraction is functioning as expected.
+
+Crawl Finished: The process ended, likely because it reached the maximum number of pages to crawl (which is set to 100) or there were no additional links to follow.
+
+What to Check Next:
+Links Extraction: If you want to see more URLs being visited, ensure that the parse_page function is correctly extracting and adding links to self.to_visit. If there are no additional links on the DuckDuckGo homepage (or if they are filtered out), the crawl will end quickly.
+
+Database Entries: You can check your SQLite database (crawled_data.db) to see if the page was stored correctly. You should have an entry for the DuckDuckGo homepage.
+
+Allowed Domains: Ensure that other domains you might want to crawl are added to the allowed_domains list if you expand the crawl.
+
+If you're looking to see more activity (more URLs being crawled), consider using a different seed URL with more links or modifying the crawler logic to follow more links. Let me know if you need further assistance!
